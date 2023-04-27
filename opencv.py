@@ -4,8 +4,7 @@ import dlib
 import numpy as np
 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
-
+predictor = dlib.shape_predictor('shape_68.dat')
 
 ## below from:
 # https://towardsdatascience.com/face-landmark-detection-using-python-1964cb620837
