@@ -2,9 +2,12 @@
 import cv2
 import dlib
 import numpy as np
+import pyautogui
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('shape_68.dat')
+
+SCALE_FACTOR = 2.0
 
 def shape_to_np(shape, dtype="int"):
 	# initialize the list of (x, y)-coordinates
@@ -51,6 +54,8 @@ def nothing(x):
     pass
 cv2.createTrackbar('threshold', 'image', 0, 255, nothing)
 
+prev_x, prev_y = (0,0)
+first_loop = True
 while(True):
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -76,8 +81,21 @@ while(True):
         thresh = cv2.bitwise_not(thresh)
         contouring(thresh[:, 0:mid], mid, img)
         contouring(thresh[:, mid:], mid, img, True)
+        
         for (x, y) in shape[36:48]:
             cv2.circle(img, (x, y), 2, (255, 0, 0), -1)
+        avg_coord = np.mean(shape, axis=0)
+        # cv2.circle(img, (int(avg_coord[0]), int(avg_coord[1])), 2, (0, 255, 0), -1)
+        (nose_x,nose_y) = shape[30]
+        cv2.circle(img, (nose_x,nose_y), 2, (0, 0, 255), -1)
+        if first_loop: 
+            prev_x, prev_y = nose_x, nose_y
+            first_loop = False
+        delta_x, delta_y = nose_x - prev_x, nose_y - prev_y
+        prev_x, prev_y = nose_x, nose_y
+        print(delta_x,delta_y)
+        pyautogui.moveRel(SCALE_FACTOR*-delta_x, SCALE_FACTOR*delta_y)
+
     # show the image with the face detections + facial landmarks
     cv2.imshow('eyes', img)
     cv2.imshow("image", thresh)
