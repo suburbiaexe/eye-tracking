@@ -39,7 +39,7 @@ def contouring(thresh, mid, img, right=False):
         pass
 
 # isabelle added
-NOD_THRESH = 30
+NOD_THRESH = 20
 def is_nod(delta_x, delta_y):
     if abs(delta_y) > NOD_THRESH:
         print('nodded')
@@ -67,15 +67,13 @@ cv2.createTrackbar('threshold', 'image', 0, 255, nothing)
 prev_x, prev_y = (0,0)
 first_loop = True
 
-x_deltas = []
-y_deltas = []
-
 while(True):
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     rects = detector(gray, 1)
     for rect in rects:
 
+        # eyes
         shape = predictor(gray, rect)
         shape = shape_to_np(shape)
         mask = np.zeros(img.shape[:2], dtype=np.uint8)
@@ -109,8 +107,6 @@ while(True):
         prev_x, prev_y = nose_x, nose_y
         
         ##isabelle added
-        x_deltas.append(delta_x)
-        y_deltas.append(delta_y)
         if is_nod(delta_x, delta_y):
             pyautogui.click()
         ## end isabelle added
