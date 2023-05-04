@@ -7,7 +7,7 @@ import pyautogui
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('shape_68.dat')
 
-SCALE_FACTOR = 2.0
+SCALE_FACTOR = 3.0 # changed from 2.0 in order to cover the entire screen more easily
 
 def shape_to_np(shape, dtype="int"):
 	# initialize the list of (x, y)-coordinates
@@ -38,6 +38,16 @@ def contouring(thresh, mid, img, right=False):
     except:
         pass
 
+# isabelle added
+NOD_THRESH = 30
+def is_nod(delta_x, delta_y):
+    if abs(delta_y) > NOD_THRESH:
+        print('nodded')
+        return True
+    else:
+        return False
+# end isa added
+
 left = [36, 37, 38, 39, 40, 41]
 right = [42, 43, 44, 45, 46, 47]
 
@@ -56,6 +66,10 @@ cv2.createTrackbar('threshold', 'image', 0, 255, nothing)
 
 prev_x, prev_y = (0,0)
 first_loop = True
+
+x_deltas = []
+y_deltas = []
+
 while(True):
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -93,14 +107,22 @@ while(True):
             first_loop = False
         delta_x, delta_y = nose_x - prev_x, nose_y - prev_y
         prev_x, prev_y = nose_x, nose_y
-        print(delta_x,delta_y)
-        pyautogui.moveRel(SCALE_FACTOR*-delta_x, SCALE_FACTOR*delta_y)
+        
+        ##isabelle added
+        x_deltas.append(delta_x)
+        y_deltas.append(delta_y)
+        if is_nod(delta_x, delta_y):
+            pyautogui.click()
+        ## end isabelle added
+        else:
+            # print(delta_x,delta_y)
+            pyautogui.moveRel(SCALE_FACTOR*-delta_x, SCALE_FACTOR*delta_y)
 
     # show the image with the face detections + facial landmarks
     cv2.imshow('eyes', img)
     cv2.imshow("image", thresh)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    
+
 cap.release()
 cv2.destroyAllWindows()
