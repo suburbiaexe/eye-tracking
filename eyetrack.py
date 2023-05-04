@@ -71,9 +71,9 @@ x_deltas = []
 y_deltas = []
 
 while(True):
-    frame = vs.read()
-    frame = imutils.resize(frame, width=640)
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    ret, img = cap.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    rects = detector(gray, 1)
     for rect in rects:
         shape = predictor(gray, rect)
         shape = shape_to_np(shape)
