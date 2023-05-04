@@ -71,11 +71,10 @@ x_deltas = []
 y_deltas = []
 
 while(True):
-    ret, img = cap.read()
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    rects = detector(gray, 1)
+    frame = vs.read()
+    frame = imutils.resize(frame, width=640)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     for rect in rects:
-
         shape = predictor(gray, rect)
         shape = shape_to_np(shape)
         mask = np.zeros(img.shape[:2], dtype=np.uint8)
@@ -87,19 +86,11 @@ while(True):
         eyes[mask] = [255, 255, 255]
         mid = (shape[42][0] + shape[39][0]) // 2
         eyes_gray = cv2.cvtColor(eyes, cv2.COLOR_BGR2GRAY)
-        # threshold = cv2.getTrackbarPos('threshold', 'image')
-        # _, thresh = cv2.threshold(eyes_gray, threshold, 255, cv2.THRESH_BINARY)
-        # thresh = cv2.erode(thresh, None, iterations=2) #1
-        # thresh = cv2.dilate(thresh, None, iterations=4) #2
-        # thresh = cv2.medianBlur(thresh, 3) #3
-        # thresh = cv2.bitwise_not(thresh)
-        # contouring(thresh[:, 0:mid], mid, img)
-        # contouring(thresh[:, mid:], mid, img, True)
         
         for (x, y) in shape[36:48]:
             cv2.circle(img, (x, y), 2, (255, 0, 0), -1)
         avg_coord = np.mean(shape, axis=0)
-        # cv2.circle(img, (int(avg_coord[0]), int(avg_coord[1])), 2, (0, 255, 0), -1)
+        
         (nose_x,nose_y) = shape[30]
         cv2.circle(img, (nose_x,nose_y), 2, (0, 0, 255), -1)
         if first_loop: 
