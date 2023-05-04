@@ -17,6 +17,13 @@ def mouth_aspect_ratio(mouth):
 	C = dist.euclidean(mouth[0], mouth[6]) # 49, 55
 	return (A + B) / (2.0 * C)
 
+EYE_AR_THRESH = 0.2
+def eye_aspect_ratio(eye):
+	A = dist.euclidean(eye[1], eye[5]) # 44, 48; one top/bottom pair
+	B = dist.euclidean(eye[2], eye[4]) # 53, 57; other top-bottom pair
+	C = dist.euclidean(eye[0], eye[3]) # 49, 55; left-right extremes
+	return (A + B) / (2.0 * C)
+
 print("[INFO] loading facial landmark predictor...")
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('shape_68.dat')
@@ -51,6 +58,7 @@ while True:
 
         mouth = shape[mStart:mEnd]
         eyes = shape[36:48]
+        left_eye = shape[42:48]
         nose = shape[nose_i]
 
         mouthMAR = mouth_aspect_ratio(mouth)
@@ -75,7 +83,7 @@ while True:
         cv2.circle(frame, nose, 2, (0, 0, 255), -1)
         cv2.drawContours(frame, [mouthHull], -1, (0, 255, 0), 1)
 
-
+        lear = eye_aspect_ratio(left_eye)
         if mar > MOUTH_AR_THRESH:
             cv2.putText(frame, ":O", (30,30),
             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255),2)
@@ -84,6 +92,9 @@ while True:
         elif mouth_open:
             pyautogui.mouseUp()
             mouth_open = False
+        elif (lear < EYE_AR_THRESH):
+            print(lear)
+            pyautogui.click(button='right')
         pyautogui.moveRel(SCALE_FACTOR*-delta_x, SCALE_FACTOR*delta_y)
         
 
