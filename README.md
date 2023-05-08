@@ -8,8 +8,11 @@ DUE TUESDAY:
     - drawing examples
         - car?
 - Script for 2min presentation
-- errors:
+- errors & other improvements:
+    - make run faster
+    - stabilize mouse movement 
     - crashes if it can't find a face initially (not sure if this still does)
+
 
 DUE WEDNESDAY:
 - writeup
