@@ -13,6 +13,7 @@ import pyautogui
 MOUTH_AR_THRESH = 0.79
 SCALE_FACTOR = 3.0
 EYE_AR_THRESH = 0.2
+DRAW_MODE = False
 
 def mouth_aspect_ratio(mouth):
     """calculates the aspect ratio of the mouth
@@ -111,7 +112,7 @@ while True:
         elif mouth_open:
             pyautogui.mouseUp()
             mouth_open = False
-        elif (lear < EYE_AR_THRESH):
+        elif (lear < EYE_AR_THRESH) and not DRAW_MODE:
             pyautogui.click(button='right')
         pyautogui.moveRel(SCALE_FACTOR*-delta_x, SCALE_FACTOR*delta_y)
         
