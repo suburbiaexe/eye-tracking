@@ -35,7 +35,7 @@ nose_i = 30 # nose
 
 # start the video stream thread
 print("[INFO] starting video stream thread...")
-vs = VideoStream(src=0).start()
+vs = VideoStream(src=1).start() #NOTE- src=0 for webcam, 1 for ext camera
 time.sleep(1.0)
 
 frame_width = 640
