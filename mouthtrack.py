@@ -13,7 +13,7 @@ import pyautogui
 MOUTH_AR_THRESH = 0.79
 SCALE_FACTOR = 3.0
 EYE_AR_THRESH = 0.2
-DRAW_MODE = False
+DRAW_MODE = True
 
 def mouth_aspect_ratio(mouth):
     """calculates the aspect ratio of the mouth
