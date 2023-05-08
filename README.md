@@ -1,10 +1,18 @@
 # eye-tracking
 
-TODOs
-- poster: report writeup and photo examples
-- Script for 2min presentation for James
+DUE TUESDAY:
+- poster 
+    - photo examples
+        - emoji at top-left for click
+        - drag and highlight?
+    - drawing examples
+        - car?
+- Script for 2min presentation
+- errors:
+    - crashes if it can't find a face initially (not sure if this still does)
 
-- Try out better camera?
-
-edge cases for eyetrack (maybe for mouthtrack too?):
-- crashes if it can't find a face initially
+DUE WEDNESDAY:
+- writeup
+- code
+    - comments
+    - reformatting for clarity (?)
