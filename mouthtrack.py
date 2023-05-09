@@ -14,7 +14,7 @@ import pyautogui
 MOUTH_AR_THRESH = 0.79
 SCALE_FACTOR = 3.0
 EYE_AR_THRESH = 0.2
-DRAW_MODE = True # True turns off right click
+DRAW_MODE = False # True turns off right click
 DEMO_VIDEO_MODE = False # True turns off clicking entirely
 DETECT_MULTIPLE = False # If true, will detect multiple faces
 
