@@ -78,6 +78,8 @@ while True:
     if not DETECT_MULTIPLE: rects = rects[:1]
     for rect in rects: 
 
+        # get landmark points 
+        # indices always map to the same facial point (correspondences are here: https://www.researchgate.net/figure/Sixty-eight-facial-landmarks-obtained-by-the-Dlib-facial-landmark-predictor-Kazemi-and_fig1_343753489)
         landmark_pts = face_utils.shape_to_np(predictor(frame, rect)) #NOTE- change first back to grey
         mouth = landmark_pts[49:68]
         eyes = landmark_pts[36:48]
@@ -90,6 +92,7 @@ while True:
         if mar > MOUTH_AR_THRESH:
             cv2.putText(frame, ":O", (30,30),
             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255),2)
+        cv2.drawContours(frame, [mouthHull], -1, (0, 255, 0), 1)
     
         # nose
         if first_loop:
@@ -97,9 +100,7 @@ while True:
             first_loop = False
         delta_x, delta_y = nose[0] - prev_x, nose[1] - prev_y
         prev_x, prev_y = nose[0], nose[1]
-
         cv2.circle(frame, nose, 2, (0, 0, 255), -1)
-        cv2.drawContours(frame, [mouthHull], -1, (0, 255, 0), 1)
 
         # eyes
         for coord in eyes:
