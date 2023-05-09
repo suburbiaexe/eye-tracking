@@ -14,8 +14,9 @@ import pyautogui
 MOUTH_AR_THRESH = 0.79
 SCALE_FACTOR = 3.0
 EYE_AR_THRESH = 0.2
-DRAW_MODE = False # turns off right click
+DRAW_MODE = True # turns off right click
 DEMO_VIDEO_MODE = False # turns off clicking entirely
+DETECT_MULTIPLE = False
 
 # dlib detector and predictor
 detector = dlib.get_frontal_face_detector()
@@ -71,13 +72,12 @@ mouth_open = False
 while True:
     frame = vs.read()
     frame = imutils.resize(frame, width=frame_width)
-    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #TODO- @orion i took this out since it didnt seem like we need it, in case you think it'll run faster
+    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     ### replaced below w/
     rects = detector(frame, 0)
-    for rect in rects: #TODO- i feel like we should take this out since we only want functionality for 1 face?
-    # face = detector(gray, 0)[0]
-    ###
-        # landmark points
+    if not DETECT_MULTIPLE: rects = rects[:1]
+    for rect in rects: 
+
         landmark_pts = face_utils.shape_to_np(predictor(frame, rect)) #NOTE- change first back to grey
         mouth = landmark_pts[49:68]
         eyes = landmark_pts[36:48]
