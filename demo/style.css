@@ -1,0 +1,14 @@
+.main-container {
+    display: flex;
+    min-height: 98vh;
+    justify-content: center;
+    align-items: center;
+    background-color: cadetblue;
+}
+
+#btn {
+    width: 15em;
+    height: 10em;
+    font-size: large;
+    background-color: lightgreen;
+}
