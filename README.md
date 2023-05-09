@@ -31,3 +31,14 @@ We believe that with more time, we could create a custom feature
 detection model built off of the one we ended up using that 
 would allow us to implement pupil detection (and thus gaze 
 tracking) to control the cursor
+
+# Installation
+
+To run our applicataion, you need to have **cmake**, **opencv**, **dlib**, and **imutils** installed.
+
+Assuming you are on Mac and have homebrew installed, this can be achieved with:
+
+`brew install cmake`
+`pip install dlib`
+`brew install opencv`
+`pip install imutils`
