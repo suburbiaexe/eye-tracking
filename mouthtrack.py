@@ -14,9 +14,9 @@ import pyautogui
 MOUTH_AR_THRESH = 0.79
 SCALE_FACTOR = 3.0
 EYE_AR_THRESH = 0.2
-DRAW_MODE = True # turns off right click
-DEMO_VIDEO_MODE = False # turns off clicking entirely
-DETECT_MULTIPLE = False
+DRAW_MODE = True # True turns off right click
+DEMO_VIDEO_MODE = False # True turns off clicking entirely
+DETECT_MULTIPLE = False # If true, will detect multiple faces
 
 # dlib detector and predictor
 detector = dlib.get_frontal_face_detector()
@@ -80,7 +80,7 @@ while True:
 
         # get landmark points 
         # indices always map to the same facial point (correspondences are here: https://www.researchgate.net/figure/Sixty-eight-facial-landmarks-obtained-by-the-Dlib-facial-landmark-predictor-Kazemi-and_fig1_343753489)
-        landmark_pts = face_utils.shape_to_np(predictor(frame, rect)) #NOTE- change first back to grey
+        landmark_pts = face_utils.shape_to_np(predictor(frame, rect)) #NOTE- change first back to grey?
         mouth = landmark_pts[49:68]
         eyes = landmark_pts[36:48]
         left_eye, right_eye = landmark_pts[42:48], landmark_pts[36:42]
@@ -103,11 +103,12 @@ while True:
         cv2.circle(frame, nose, 2, (0, 0, 255), -1)
 
         # eyes
+        l_ear = eye_aspect_ratio(left_eye)
+        r_ear = eye_aspect_ratio(right_eye)
         for coord in eyes:
             cv2.circle(frame, coord, 2, (255, 0, 0), -1)
 
-        l_ear = eye_aspect_ratio(left_eye)
-        r_ear = eye_aspect_ratio(right_eye)
+        # move mouse
         if mar > MOUTH_AR_THRESH:
             cv2.putText(frame, ":O", (30,30),
             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255),2)
