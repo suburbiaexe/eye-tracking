@@ -10,7 +10,7 @@ and consistency. As a result, we used the popular 68-point
 model from Dlib to identify facial landmarks, and then used 
 the change in those landmarks to map to the cursor’s position.
 
-To run the program, run python mouthtrack.py. A videostream should 
+To run the program, run `python eye-tracking.py`. A videostream should 
 show up with your points highlighted on your eyes, nose, and mouth.
 For full functionality, ensure the DRAW_MODE and DEMO_VIDEO_MODE 
 variables (both in mouthtrack.py) are both set to False. 
